@@ -1,0 +1,28 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<EntityTypes>
+			<ClassTypes>
+				<!-- Distributed Application Classes - -->
+				<ClassType ID="App_Wader2.DA" Base="System!System.Service" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
+				<ClassType ID="App_Wader2.DA.ComponentGroup.Databases" Base="System!System.Group" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
+			</ClassTypes>
+		</EntityTypes>
+	</TypeDefinitions>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<!-- Distributed Application Display Strings -->
+				<DisplayString ElementID="App_Wader2.DA">
+					<Name>Wader 2 Application</Name>
+					<Description></Description>
+				</DisplayString>
+
+				<DisplayString ElementID="App_Wader2.DA.ComponentGroup.Databases">
+					<Name>Wader 2 - Databases Component Group</Name>
+					<Description></Description>
+				</DisplayString>
+
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

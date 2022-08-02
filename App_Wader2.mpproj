@@ -1,0 +1,88 @@
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{4fb3feab-f2b3-4370-bd86-54a65d03965d}</ProjectGuid>
+    <RootNamespace>App_Wader2</RootNamespace>
+    <Name>App_Wader2</Name>
+    <ManagementPackName>App_Wader2</ManagementPackName>
+    <Version>1.0.0.0</Version>
+    <MpFrameworkVersion>v7.0.3</MpFrameworkVersion>
+    <MpFrameworkProfile>OM</MpFrameworkProfile>
+    <ProductVersion>1.1.0.0</ProductVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>C:\Users\graham\Source\Repos\App_Wader2\z_Build</OutputPath>
+    <GenerateSealed>True</GenerateSealed>
+    <Company>SCOMAcademy</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySigning>False</DelaySigning>
+    <AssemblyOriginatorKeyFile>C:\Users\graham\Source\Repos\App_Wader\z_KeyFile\scomkey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <DelaySigning>false</DelaySigning>
+    <Company>MyCompany</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SQLServer.Core.Library">
+      <HintPath>C:\Users\graham\Source\Repos\App_Wader2\References\Microsoft.SQLServer.Core.Library.mpb</HintPath>
+      <Alias>MSCL</Alias>
+      <MinVersion>7.0.38.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SQLServer.Windows.Discovery">
+      <HintPath>C:\Users\graham\Source\Repos\App_Wader2\References\Microsoft.SQLServer.Windows.Discovery.mpb</HintPath>
+      <Alias>MSWD</Alias>
+      <MinVersion>7.0.38.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Library">
+      <Alias>SC</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.Windows.Library">
+      <Alias>Windows</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Health.Library">
+      <Alias>Health</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Library">
+      <Alias>System</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
+      <Alias>Visualization</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Health Model" />
+    <Folder Include="Health Model\Discoveries" />
+    <Folder Include="Health Model\Monitoring" />
+    <Folder Include="ServiceModel" />
+    <Folder Include="ServiceModel\Classes" />
+    <Folder Include="ServiceModel\Relationships" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Health Model\Discoveries\GrpPopulateDatabases.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Health Model\Monitoring\DR_DatabaseComponentGroupToDA.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Classes\DAClasses.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServiceModel\Relationships\Relationships.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
+</Project>

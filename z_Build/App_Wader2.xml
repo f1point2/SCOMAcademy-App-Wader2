@@ -224,6 +224,22 @@
       </Discovery>
     </Discoveries>
     <Monitors>
+      <DependencyMonitor ID="App_Wader2.DA.DR.ComponentGroup.ApplicationServersToGroup" Accessibility="Public" Enabled="true" Target="App_Wader2.DA.ComponentGroup.ApplicationServer" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers" MemberMonitor="Health!System.Health.AvailabilityState">
+        <Category>AvailabilityHealth</Category>
+        <Algorithm>WorstOf</Algorithm>
+      </DependencyMonitor>
+      <DependencyMonitor ID="App_Wader2.DA.DR.DAToApplicationServerComponentGroup" Accessibility="Public" Enabled="true" Target="App_Wader2.DA" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.contains.ComponentGroup.ApplicationServers" MemberMonitor="Health!System.Health.AvailabilityState">
+        <Category>AvailabilityHealth</Category>
+        <Algorithm>WorstOf</Algorithm>
+      </DependencyMonitor>
+      <DependencyMonitor ID="App_Wader2.DA.DR.ComponentGroup.ApplicationServersToGroup.Perf" Accessibility="Public" Enabled="true" Target="App_Wader2.DA.ComponentGroup.ApplicationServer" ParentMonitorID="Health!System.Health.PerformanceState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers" MemberMonitor="Health!System.Health.PerformanceState">
+        <Category>PerformanceHealth</Category>
+        <Algorithm>WorstOf</Algorithm>
+      </DependencyMonitor>
+      <DependencyMonitor ID="App_Wader2.DA.DR.DAToApplicationServerComponentGroup.Perf" Accessibility="Public" Enabled="true" Target="App_Wader2.DA" ParentMonitorID="Health!System.Health.PerformanceState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.contains.ComponentGroup.ApplicationServers" MemberMonitor="Health!System.Health.PerformanceState">
+        <Category>PerformanceHealth</Category>
+        <Algorithm>WorstOf</Algorithm>
+      </DependencyMonitor>
       <DependencyMonitor ID="App_Wader2.DA.DR.ComponentGroup.DatabasesToGroup" Accessibility="Public" Enabled="true" Target="App_Wader2.DA.ComponentGroup.Databases" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases" MemberMonitor="Health!System.Health.AvailabilityState">
         <Category>AvailabilityHealth</Category>
         <Algorithm>WorstOf</Algorithm>
@@ -264,6 +280,22 @@
         <DisplayString ElementID="App_Wader2.DA.grppop.ComponentGroup.Databases.ContainsSQLDatabases">
           <Name>App Wader 2 database component group populator Contains SQL Databases</Name>
           <Description>App Wader 2 database class and relationship discovery.</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.DR.ComponentGroup.ApplicationServersToGroup">
+          <Name>Roll up application server health to Component group health - availability</Name>
+          <Description>Description for new dependency monitor.</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.DR.DAToApplicationServerComponentGroup">
+          <Name>Roll up dapplication server group health to DA - availability</Name>
+          <Description>Description for new dependency monitor.</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.DR.ComponentGroup.ApplicationServersToGroup.Perf">
+          <Name>Roll up application server health to Component group health - performance</Name>
+          <Description>Description for new dependency monitor.</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.DR.DAToApplicationServerComponentGroup.Perf">
+          <Name>Roll up application server health to DA - performance</Name>
+          <Description>Description for new dependency monitor.</Description>
         </DisplayString>
         <DisplayString ElementID="App_Wader2.DA.DR.ComponentGroup.DatabasesToGroup">
           <Name>Roll up database health to Component group health - availability</Name>

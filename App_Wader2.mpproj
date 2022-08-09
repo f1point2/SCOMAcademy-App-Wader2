@@ -80,6 +80,9 @@
     <Compile Include="Health Model\Discoveries\GrpPopulateDatabases.mpx">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Health Model\Monitoring\DR_ApplicationServerGroupToDA.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Health Model\Monitoring\DR_DatabaseComponentGroupToDA.mpx">
       <SubType>Code</SubType>
     </Compile>

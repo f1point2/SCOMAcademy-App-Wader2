@@ -1,21 +1,60 @@
 ﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
 	<TypeDefinitions>
 		<EntityTypes>
 			<RelationshipTypes>
-
+				<!-- Windows Computer Hosts Wader 2 Application Server Hosting Relationship-->
+				<RelationshipType ID="App_Wader2.WindowsComputerHostsApplication" Base="System!System.Hosting" Abstract="false" Accessibility="Internal">
+					<Source ID="Source" Type="Windows!Microsoft.Windows.Computer"/>
+					<Target ID="Target" Type="App_Wader2_ApplicationServer"/>
+				</RelationshipType>
+				<!-- DA Contains Computer Group Containment Relationships - DA to Database Group to Databases -->
 				<RelationshipType ID="App_Wader2.DA.contains.ComponentGroup.Databases" Base="System!System.Containment" Abstract="false" Accessibility="Public">
 					<Source ID="Source" Type="App_Wader2.DA"/>
 					<Target ID="Target" Type="App_Wader2.DA.ComponentGroup.Databases"/>
 				</RelationshipType>
-
-
 				<RelationshipType ID="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases" Base="System!System.Containment" Abstract="false" Accessibility="Public">
 					<Source ID="Source" Type="App_Wader2.DA.ComponentGroup.Databases"/>
 					<Target ID="Target" Type="MSWD!Microsoft.SQLServer.Windows.Database"/>
 				</RelationshipType>
-
-
+				<!-- DA Contains Computer Group Containment Relationships - DA to Application Servers Group to Application Servers -->
+				<RelationshipType ID="App_Wader2.DA.contains.ComponentGroup.ApplicationServers" Base="System!System.Containment" Abstract="false" Accessibility="Public">
+					<Source ID="Source" Type="App_Wader2.DA"/>
+					<Target ID="Target" Type="App_Wader2.DA.ComponentGroup.ApplicationServer"/>
+				</RelationshipType>
+				<RelationshipType ID="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers" Base="System!System.Containment" Abstract="false" Accessibility="Public">
+					<Source ID="Source" Type="App_Wader2.DA.ComponentGroup.ApplicationServer"/>
+					<Target ID="Target" Type="App_Wader2_ApplicationServer"/>
+				</RelationshipType>
 			</RelationshipTypes>
 		</EntityTypes>
 	</TypeDefinitions>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<!-- Windows Computer Hosts Wader 2 Application Server Hosting Relationship -->
+				<DisplayString ElementID="App_Wader2.WindowsComputerHostsApplication">
+					<Name>Windows Computer Hosts Wader 2 Application Server Relationship</Name>
+					<Description></Description>
+				</DisplayString>
+				<!-- DA Contains Computer Group Containment Relationships-->
+				<DisplayString ElementID="App_Wader2.DA.contains.ComponentGroup.Databases">
+					<Name>Wader 2 Distributed Application Contains SQL Databases Group Relationship</Name>
+					<Description></Description>
+				</DisplayString>
+				<DisplayString ElementID="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases">
+					<Name>Wader 2 SQL Databases Group Contains SQL Databases Relationship</Name>
+					<Description></Description>
+				</DisplayString>
+				<DisplayString ElementID="App_Wader2.DA.contains.ComponentGroup.ApplicationServers">
+					<Name>Wader 2 Distributed Application Contains Application Servers Group Relationship</Name>
+					<Description></Description>
+				</DisplayString>
+				<DisplayString ElementID="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers">
+					<Name>Wader 2 Application Servers Group Contains Application Servers Relationship</Name>
+					<Description></Description>
+				</DisplayString>
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
 </ManagementPackFragment>

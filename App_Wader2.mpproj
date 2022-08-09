@@ -71,6 +71,12 @@
     <Folder Include="ServiceModel\Relationships" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Health Model\Discoveries\DiscoverAppServerClass.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Health Model\Discoveries\GrpPopulateAppServers.mpx">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Health Model\Discoveries\GrpPopulateDatabases.mpx">
       <SubType>Code</SubType>
     </Compile>

@@ -2,15 +2,30 @@
 	<TypeDefinitions>
 		<EntityTypes>
 			<ClassTypes>
+				<!-- Application Server Class --> 
+				<ClassType ID="App_Wader2_ApplicationServer" Base="System!System.LocalApplication" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+					<Property ID="Version" Key="false" Type="string" />
+				</ClassType>
 				<!-- Distributed Application Classes - -->
 				<ClassType ID="App_Wader2.DA" Base="System!System.Service" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
 				<ClassType ID="App_Wader2.DA.ComponentGroup.Databases" Base="System!System.Group" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
+				<ClassType ID="App_Wader2.DA.ComponentGroup.ApplicationServer" Base="System!System.Group" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
+	
 			</ClassTypes>
 		</EntityTypes>
 	</TypeDefinitions>
 	<LanguagePacks>
 		<LanguagePack ID="ENU" IsDefault="true">
 			<DisplayStrings>
+				<!-- Application Server Display Strings --> 
+				<DisplayString ElementID="App_Wader2_ApplicationServer">
+					<Name>Wader 3 Application Server</Name>
+					<Description></Description>
+				</DisplayString>
+				<DisplayString ElementID="App_Wader2_ApplicationServer" SubElementID="Version">
+					<Name>Version</Name>
+					<Description></Description>
+				</DisplayString>
 				<!-- Distributed Application Display Strings -->
 				<DisplayString ElementID="App_Wader2.DA">
 					<Name>Wader 2 Application</Name>
@@ -21,7 +36,11 @@
 					<Name>Wader 2 - Databases Component Group</Name>
 					<Description></Description>
 				</DisplayString>
-
+				<DisplayString ElementID="App_Wader2.DA.ComponentGroup.ApplicationServer">
+					<Name>Wader 2 - Application Server Component Group</Name>
+					<Description></Description>
+				</DisplayString>	
+		
 			</DisplayStrings>
 		</LanguagePack>
 	</LanguagePacks>

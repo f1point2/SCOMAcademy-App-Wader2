@@ -22,6 +22,11 @@
         <Version>7.0.8437.0</Version>
         <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
       </Reference>
+      <Reference Alias="Windows">
+        <ID>Microsoft.Windows.Library</ID>
+        <Version>7.5.8501.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
       <Reference Alias="Health">
         <ID>System.Health.Library</ID>
         <Version>7.0.8437.0</Version>
@@ -37,10 +42,18 @@
   <TypeDefinitions>
     <EntityTypes>
       <ClassTypes>
+        <ClassType ID="App_Wader2_ApplicationServer" Base="System!System.LocalApplication" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="Version" Key="false" Type="string" />
+        </ClassType>
         <ClassType ID="App_Wader2.DA" Base="System!System.Service" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
         <ClassType ID="App_Wader2.DA.ComponentGroup.Databases" Base="System!System.Group" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
+        <ClassType ID="App_Wader2.DA.ComponentGroup.ApplicationServer" Base="System!System.Group" Accessibility="Public" Abstract="false" Hosted="false" Singleton="true" />
       </ClassTypes>
       <RelationshipTypes>
+        <RelationshipType ID="App_Wader2.WindowsComputerHostsApplication" Base="System!System.Hosting" Abstract="false" Accessibility="Internal">
+          <Source ID="Source" Type="Windows!Microsoft.Windows.Computer" />
+          <Target ID="Target" Type="App_Wader2_ApplicationServer" />
+        </RelationshipType>
         <RelationshipType ID="App_Wader2.DA.contains.ComponentGroup.Databases" Base="System!System.Containment" Abstract="false" Accessibility="Public">
           <Source ID="Source" Type="App_Wader2.DA" />
           <Target ID="Target" Type="App_Wader2.DA.ComponentGroup.Databases" />
@@ -49,11 +62,105 @@
           <Source ID="Source" Type="App_Wader2.DA.ComponentGroup.Databases" />
           <Target ID="Target" Type="MSWD!Microsoft.SQLServer.Windows.Database" />
         </RelationshipType>
+        <RelationshipType ID="App_Wader2.DA.contains.ComponentGroup.ApplicationServers" Base="System!System.Containment" Abstract="false" Accessibility="Public">
+          <Source ID="Source" Type="App_Wader2.DA" />
+          <Target ID="Target" Type="App_Wader2.DA.ComponentGroup.ApplicationServer" />
+        </RelationshipType>
+        <RelationshipType ID="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers" Base="System!System.Containment" Abstract="false" Accessibility="Public">
+          <Source ID="Source" Type="App_Wader2.DA.ComponentGroup.ApplicationServer" />
+          <Target ID="Target" Type="App_Wader2_ApplicationServer" />
+        </RelationshipType>
       </RelationshipTypes>
     </EntityTypes>
   </TypeDefinitions>
   <Monitoring>
     <Discoveries>
+      <Discovery ID="Discover.App_Wader2_ApplicationServer" Target="Windows!Microsoft.Windows.Server.OperatingSystem" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="App_Wader2_ApplicationServer" />
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.FilteredRegistryDiscoveryProvider">
+          <ComputerName>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</ComputerName>
+          <RegistryAttributeDefinitions>
+            <RegistryAttributeDefinition>
+              <AttributeName>SeedExists</AttributeName>
+              <Path>SOFTWARE\SCOMDiscoveryData\AppWader2</Path>
+              <PathType>0</PathType>
+              <AttributeType>0</AttributeType>
+            </RegistryAttributeDefinition>
+            <RegistryAttributeDefinition>
+              <AttributeName>Version</AttributeName>
+              <Path>SOFTWARE\SCOMDiscoveryData\AppWader2\Version</Path>
+              <PathType>1</PathType>
+              <AttributeType>1</AttributeType>
+            </RegistryAttributeDefinition>
+          </RegistryAttributeDefinitions>
+          <Frequency>3600</Frequency>
+          <ClassId>$MPElement[Name="App_Wader2_ApplicationServer"]$</ClassId>
+          <InstanceSettings>
+            <Settings>
+              <Setting>
+                <Name>$MPElement[Name="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Name>
+                <Value>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="System!System.Entity"]/DisplayName$</Name>
+                <Value>$Target/Host/Property[Type="Windows!Microsoft.Windows.Computer"]/PrincipalName$</Value>
+              </Setting>
+              <Setting>
+                <Name>$MPElement[Name="App_Wader2_ApplicationServer"]/Version$</Name>
+                <Value>$Data/Values/Version$</Value>
+              </Setting>
+            </Settings>
+          </InstanceSettings>
+          <Expression>
+            <SimpleExpression>
+              <ValueExpression>
+                <XPathQuery Type="String">Values/SeedExists</XPathQuery>
+              </ValueExpression>
+              <Operator>Equal</Operator>
+              <ValueExpression>
+                <Value Type="String">True</Value>
+              </ValueExpression>
+            </SimpleExpression>
+          </Expression>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="App_Wader2.DA.Contains.ApplicationServersComponentGroup.Discovery" Target="App_Wader2.DA" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="App_Wader2.DA.ComponentGroup.ApplicationServer" />
+          <DiscoveryRelationship TypeID="App_Wader2.DA.contains.ComponentGroup.ApplicationServers" />
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+          <RuleId>$MPElement$</RuleId>
+          <GroupInstanceId>$Target/Id$</GroupInstanceId>
+          <MembershipRules>
+            <MembershipRule>
+              <MonitoringClass>$MPElement[Name="App_Wader2.DA.ComponentGroup.ApplicationServer"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="App_Wader2.DA.contains.ComponentGroup.ApplicationServers"]$</RelationshipClass>
+            </MembershipRule>
+          </MembershipRules>
+        </DataSource>
+      </Discovery>
+      <Discovery ID="App_Wader2.DA.grppop.ComponentGroup.Contains.ApplicationServers.Discovery" Target="App_Wader2.DA.ComponentGroup.ApplicationServer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+        <Category>Discovery</Category>
+        <DiscoveryTypes>
+          <DiscoveryClass TypeID="App_Wader2_ApplicationServer" />
+          <DiscoveryRelationship TypeID="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers" />
+        </DiscoveryTypes>
+        <DataSource ID="DS" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+          <RuleId>$MPElement$</RuleId>
+          <GroupInstanceId>$Target/Id$</GroupInstanceId>
+          <MembershipRules>
+            <MembershipRule>
+              <MonitoringClass>$MPElement[Name="App_Wader2_ApplicationServer"]$</MonitoringClass>
+              <RelationshipClass>$MPElement[Name="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers"]$</RelationshipClass>
+            </MembershipRule>
+          </MembershipRules>
+        </DataSource>
+      </Discovery>
       <Discovery ID="App_Wader2.DA.grppop" Target="App_Wader2.DA" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
         <Category>Discovery</Category>
         <DiscoveryTypes>
@@ -138,6 +245,18 @@
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
+        <DisplayString ElementID="Discover.App_Wader2_ApplicationServer">
+          <Name>Discover App_Wader2_Application Server</Name>
+          <Description>Description for the new discovery.</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.Contains.ApplicationServersComponentGroup.Discovery">
+          <Name>App Wader 2 Distributed Application - Populate with Application Server Component Group</Name>
+          <Description>App Wader 2 Distributed Application Contains Application Servers Component Group class and relationship discovery</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.grppop.ComponentGroup.Contains.ApplicationServers.Discovery">
+          <Name>App Wader 2 Application Server component group populator Contains Application Servers</Name>
+          <Description>App Wader 2 Application Server class and relationship discovery.</Description>
+        </DisplayString>
         <DisplayString ElementID="App_Wader2.DA.grppop">
           <Name>App Wader 2 Distributed Application - Populate with SQL Component Group</Name>
           <Description>App Wader 2 Distributed Application -  SQL Component Group class and relationship discovery</Description>
@@ -162,12 +281,44 @@
           <Name>Roll up databasegroup health to DA - performance</Name>
           <Description>Description for new dependency monitor.</Description>
         </DisplayString>
+        <DisplayString ElementID="App_Wader2_ApplicationServer">
+          <Name>Wader 3 Application Server</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2_ApplicationServer" SubElementID="Version">
+          <Name>Version</Name>
+          <Description></Description>
+        </DisplayString>
         <DisplayString ElementID="App_Wader2.DA">
           <Name>Wader 2 Application</Name>
           <Description></Description>
         </DisplayString>
         <DisplayString ElementID="App_Wader2.DA.ComponentGroup.Databases">
           <Name>Wader 2 - Databases Component Group</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.ComponentGroup.ApplicationServer">
+          <Name>Wader 2 - Application Server Component Group</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.WindowsComputerHostsApplication">
+          <Name>Windows Computer Hosts Wader 2 Application Server Relationship</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.contains.ComponentGroup.Databases">
+          <Name>Wader 2 Distributed Application Contains SQL Databases Group Relationship</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases">
+          <Name>Wader 2 SQL Databases Group Contains SQL Databases Relationship</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.contains.ComponentGroup.ApplicationServers">
+          <Name>Wader 2 Distributed Application Contains Application Servers Group Relationship</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers">
+          <Name>Wader 2 Application Servers Group Contains Application Servers Relationship</Name>
           <Description></Description>
         </DisplayString>
       </DisplayStrings>

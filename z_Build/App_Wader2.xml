@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>App_Wader2</ID>
-      <Version>1.0.0.0</Version>
+      <Version>1.0.0.7</Version>
     </Identity>
     <Name>App_Wader2</Name>
     <References>
@@ -72,6 +72,190 @@
         </RelationshipType>
       </RelationshipTypes>
     </EntityTypes>
+    <MonitorTypes>
+      <UnitMonitorType ID="Microsoft.Windows.CheckNTServiceStateWithBusinessHoursMonitorType" Accessibility="Public">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="Running" />
+          <MonitorTypeState ID="NotRunning" />
+        </MonitorTypeStates>
+        <Configuration>
+          <xsd:element name="ComputerName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="ServiceName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="CheckStartupType" minOccurs="0" maxOccurs="1" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="From" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="To" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+          <xsd:element name="Days" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        </Configuration>
+        <OverrideableParameters>
+          <OverrideableParameter ID="CheckStartupType" Selector="$Config/CheckStartupType$" ParameterType="string" />
+          <OverrideableParameter ID="From" Selector="$Config/From$" ParameterType="string" />
+          <OverrideableParameter ID="To" Selector="$Config/To$" ParameterType="string" />
+          <OverrideableParameter ID="Days" Selector="$Config/Days$" ParameterType="int" />
+        </OverrideableParameters>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="DS" TypeID="Windows!Microsoft.Windows.Win32ServiceInformationProvider">
+              <ComputerName>$Config/ComputerName$</ComputerName>
+              <ServiceName>$Config/ServiceName$</ServiceName>
+              <Frequency>30</Frequency>
+              <CheckStartupType>$Config/CheckStartupType$</CheckStartupType>
+            </DataSource>
+            <ProbeAction ID="Probe" TypeID="Windows!Microsoft.Windows.Win32ServiceInformationProbe">
+              <ComputerName>$Config/ComputerName$</ComputerName>
+              <ServiceName>$Config/ServiceName$</ServiceName>
+            </ProbeAction>
+            <ConditionDetection ID="ServiceRunning" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <Or>
+                  <Expression>
+                    <And>
+                      <Expression>
+                        <SimpleExpression>
+                          <ValueExpression>
+                            <Value Type="String">$Config/CheckStartupType$</Value>
+                          </ValueExpression>
+                          <Operator>NotEqual</Operator>
+                          <ValueExpression>
+                            <Value Type="String">false</Value>
+                          </ValueExpression>
+                        </SimpleExpression>
+                      </Expression>
+                      <Expression>
+                        <SimpleExpression>
+                          <ValueExpression>
+                            <XPathQuery Type="Integer">Property[@Name='StartMode']</XPathQuery>
+                          </ValueExpression>
+                          <Operator>NotEqual</Operator>
+                          <ValueExpression>
+                            <Value Type="Integer">2</Value>
+                          </ValueExpression>
+                        </SimpleExpression>
+                      </Expression>
+                    </And>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">Property[@Name='State']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>Equal</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">4</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </Or>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection ID="ServiceNotRunning" TypeID="System!System.ExpressionFilter">
+              <Expression>
+                <And>
+                  <Expression>
+                    <Or>
+                      <Expression>
+                        <SimpleExpression>
+                          <ValueExpression>
+                            <XPathQuery Type="Integer">Property[@Name='StartMode']</XPathQuery>
+                          </ValueExpression>
+                          <Operator>Equal</Operator>
+                          <ValueExpression>
+                            <Value Type="Integer">2</Value>
+                          </ValueExpression>
+                        </SimpleExpression>
+                      </Expression>
+                      <Expression>
+                        <And>
+                          <Expression>
+                            <SimpleExpression>
+                              <ValueExpression>
+                                <Value Type="String">$Config/CheckStartupType$</Value>
+                              </ValueExpression>
+                              <Operator>Equal</Operator>
+                              <ValueExpression>
+                                <Value Type="String">false</Value>
+                              </ValueExpression>
+                            </SimpleExpression>
+                          </Expression>
+                          <Expression>
+                            <SimpleExpression>
+                              <ValueExpression>
+                                <XPathQuery Type="Integer">Property[@Name='StartMode']</XPathQuery>
+                              </ValueExpression>
+                              <Operator>NotEqual</Operator>
+                              <ValueExpression>
+                                <Value Type="Integer">2</Value>
+                              </ValueExpression>
+                            </SimpleExpression>
+                          </Expression>
+                        </And>
+                      </Expression>
+                    </Or>
+                  </Expression>
+                  <Expression>
+                    <SimpleExpression>
+                      <ValueExpression>
+                        <XPathQuery Type="Integer">Property[@Name='State']</XPathQuery>
+                      </ValueExpression>
+                      <Operator>NotEqual</Operator>
+                      <ValueExpression>
+                        <Value Type="Integer">4</Value>
+                      </ValueExpression>
+                    </SimpleExpression>
+                  </Expression>
+                </And>
+              </Expression>
+              <SuppressionSettings>
+                <MatchCount>2</MatchCount>
+              </SuppressionSettings>
+            </ConditionDetection>
+            <ConditionDetection ID="Filter" TypeID="System!System.SchedulerFilter">
+              <SchedulerFilter>
+                <ProcessDataMode>OnSchedule</ProcessDataMode>
+                <Schedule>
+                  <WeeklySchedule>
+                    <Windows>
+                      <Daily>
+                        <Start>$Config/From$</Start>
+                        <End>$Config/To$</End>
+                        <DaysOfWeekMask>$Config/Days$</DaysOfWeekMask>
+                      </Daily>
+                    </Windows>
+                  </WeeklySchedule>
+                  <ExcludeDates />
+                </Schedule>
+                <UseCurrentTime>true</UseCurrentTime>
+              </SchedulerFilter>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="Running">
+              <Node ID="ServiceRunning">
+                <Node ID="DS" />
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="NotRunning">
+              <Node ID="ServiceNotRunning">
+                <Node ID="Filter">
+                  <Node ID="DS" />
+                </Node>
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+          <OnDemandDetections>
+            <OnDemandDetection MonitorTypeStateID="Running">
+              <Node ID="ServiceRunning">
+                <Node ID="Probe" />
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="NotRunning">
+              <Node ID="ServiceNotRunning">
+                <Node ID="Probe" />
+              </Node>
+            </OnDemandDetection>
+          </OnDemandDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
   </TypeDefinitions>
   <Monitoring>
     <Discoveries>
@@ -224,6 +408,30 @@
       </Discovery>
     </Discoveries>
     <Monitors>
+      <UnitMonitor ID="App_Wader2.UnitMonitor.Service.BusinessHours.Heron" Accessibility="Public" Enabled="true" Target="App_Wader2_ApplicationServer" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" TypeID="Microsoft.Windows.CheckNTServiceStateWithBusinessHoursMonitorType" ConfirmDelivery="false">
+        <Category>AvailabilityHealth</Category>
+        <AlertSettings AlertMessage="App_Wader2.UnitMonitor.Service.BusinessHours.Heron.AlertMessage">
+          <AlertOnState>Error</AlertOnState>
+          <AutoResolve>true</AutoResolve>
+          <AlertPriority>Normal</AlertPriority>
+          <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+          <AlertParameters>
+            <AlertParameter1>$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/PrincipalName$</AlertParameter1>
+          </AlertParameters>
+        </AlertSettings>
+        <OperationalStates>
+          <OperationalState ID="Running" MonitorTypeStateID="Running" HealthState="Success" />
+          <OperationalState ID="NotRunning" MonitorTypeStateID="NotRunning" HealthState="Error" />
+        </OperationalStates>
+        <Configuration>
+          <ComputerName>$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/PrincipalName$</ComputerName>
+          <ServiceName>AppWader2HeronService</ServiceName>
+          <CheckStartupType>False</CheckStartupType>
+          <From>08:30</From>
+          <To>16:00</To>
+          <Days>127</Days>
+        </Configuration>
+      </UnitMonitor>
       <DependencyMonitor ID="App_Wader2.DA.DR.ComponentGroup.ApplicationServersToGroup" Accessibility="Public" Enabled="true" Target="App_Wader2.DA.ComponentGroup.ApplicationServer" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers" MemberMonitor="Health!System.Health.AvailabilityState">
         <Category>AvailabilityHealth</Category>
         <Algorithm>WorstOf</Algorithm>
@@ -258,6 +466,39 @@
       </DependencyMonitor>
     </Monitors>
   </Monitoring>
+  <Presentation>
+    <Views>
+      <View ID="App_Wader2.Views.State.DA.Alert" Accessibility="Public" Target="App_Wader2.DA" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Visible="true">
+        <Category>Operations</Category>
+        <Criteria>
+          <ResolutionState>
+            <StateRange Operator="NotEquals">255</StateRange>
+          </ResolutionState>
+        </Criteria>
+      </View>
+      <View ID="App_Wader2.Views.State.DA" Accessibility="Internal" Target="App_Wader2.DA" TypeID="SC!Microsoft.SystemCenter.StateViewType" Visible="true">
+        <Category>Operations</Category>
+      </View>
+      <View ID="App_Wader2.Views.State.App_Wader2ApplicationServers" Accessibility="Internal" Target="App_Wader2_ApplicationServer" TypeID="SC!Microsoft.SystemCenter.StateViewType" Visible="true">
+        <Category>Operations</Category>
+      </View>
+      <View ID="App_Wader2.Views.State.App_Wader2ApplicationServersGroup" Accessibility="Internal" Target="App_Wader2.DA.ComponentGroup.ApplicationServer" TypeID="SC!Microsoft.SystemCenter.StateViewType" Visible="true">
+        <Category>Operations</Category>
+      </View>
+    </Views>
+    <Folders>
+      <Folder ID="App_Wader2.Folder" Accessibility="Public" ParentFolder="SC!Microsoft.SystemCenter.Monitoring.ViewFolder.Root" />
+    </Folders>
+    <FolderItems>
+      <FolderItem ElementID="App_Wader2.Views.State.DA.Alert" Folder="App_Wader2.Folder" ID="App_Wader2.Views.State.DA.Alert.FolderItem" />
+      <FolderItem ElementID="App_Wader2.Views.State.DA" Folder="App_Wader2.Folder" ID="App_Wader2.Views.State.DA.FolderItem" />
+      <FolderItem ElementID="App_Wader2.Views.State.App_Wader2ApplicationServers" Folder="App_Wader2.Folder" ID="App_Wader2.Views.State.App_Wader2ApplicationServers.FolderItem" />
+      <FolderItem ElementID="App_Wader2.Views.State.App_Wader2ApplicationServersGroup" Folder="App_Wader2.Folder" ID="App_Wader2.Views.State.App_Wader2ApplicationServersGroup.FolderItem" />
+    </FolderItems>
+    <StringResources>
+      <StringResource ID="App_Wader2.UnitMonitor.Service.BusinessHours.Heron.AlertMessage" />
+    </StringResources>
+  </Presentation>
   <LanguagePacks>
     <LanguagePack ID="ENU" IsDefault="true">
       <DisplayStrings>
@@ -313,8 +554,44 @@
           <Name>Roll up databasegroup health to DA - performance</Name>
           <Description>Description for new dependency monitor.</Description>
         </DisplayString>
+        <DisplayString ElementID="App_Wader2.UnitMonitor.Service.BusinessHours.Heron">
+          <Name>Heron Monitor</Name>
+          <Description>Description for the new unit monitor.</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.UnitMonitor.Service.BusinessHours.Heron.AlertMessage">
+          <Name>Heron Service is Not Running</Name>
+          <Description>The Heron Service is not running on {0}</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.UnitMonitor.Service.BusinessHours.Heron" SubElementID="Running">
+          <Name>Running</Name>
+          <Description>Running</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.UnitMonitor.Service.BusinessHours.Heron" SubElementID="NotRunning">
+          <Name>NotRunning</Name>
+          <Description>NotRunning</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.Views.State.DA.Alert">
+          <Name>App Wader 2 Alerts</Name>
+          <Description>Description for the new view</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.Views.State.DA">
+          <Name>App_Wader2 Application Health State View</Name>
+          <Description>Description for the new view</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.Folder">
+          <Name>App Wader 2 Application</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.Views.State.App_Wader2ApplicationServers">
+          <Name>App_Wader2 Application Servers State View</Name>
+          <Description>Description for the new view</Description>
+        </DisplayString>
+        <DisplayString ElementID="App_Wader2.Views.State.App_Wader2ApplicationServersGroup">
+          <Name>App_Wader2 Application Server Component Group Health State View</Name>
+          <Description>Description for the new view</Description>
+        </DisplayString>
         <DisplayString ElementID="App_Wader2_ApplicationServer">
-          <Name>Wader 3 Application Server</Name>
+          <Name>Wader 2 Application Server</Name>
           <Description></Description>
         </DisplayString>
         <DisplayString ElementID="App_Wader2_ApplicationServer" SubElementID="Version">
@@ -354,7 +631,24 @@
           <Description></Description>
         </DisplayString>
       </DisplayStrings>
-      <KnowledgeArticles></KnowledgeArticles>
+      <KnowledgeArticles>
+        <KnowledgeArticle ElementID="App_Wader2.UnitMonitor.Service.BusinessHours.Heron" Visible="true">
+          <MamlContent>
+            <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+              <maml:title>Summary</maml:title>
+              <maml:para>Monitors the status of the Heron Service during specified business hours.</maml:para>
+            </maml:section>
+            <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+              <maml:title>Causes</maml:title>
+              <maml:para>The service stops when it is overwhelmed with work.</maml:para>
+            </maml:section>
+            <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+              <maml:title>Resolutions</maml:title>
+              <maml:para>Start the service and grab some coffee.</maml:para>
+            </maml:section>
+          </MamlContent>
+        </KnowledgeArticle>
+      </KnowledgeArticles>
     </LanguagePack>
   </LanguagePacks>
 </ManagementPack>

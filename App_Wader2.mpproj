@@ -5,7 +5,7 @@
     <RootNamespace>App_Wader2</RootNamespace>
     <Name>App_Wader2</Name>
     <ManagementPackName>App_Wader2</ManagementPackName>
-    <Version>1.0.0.2</Version>
+    <Version>1.0.0.7</Version>
     <MpFrameworkVersion>v7.0.3</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
@@ -66,6 +66,7 @@
     <Folder Include="Health Model" />
     <Folder Include="Health Model\Discoveries" />
     <Folder Include="Health Model\Monitoring" />
+    <Folder Include="Presentation" />
     <Folder Include="ServiceModel" />
     <Folder Include="ServiceModel\Classes" />
     <Folder Include="ServiceModel\Relationships" />
@@ -84,6 +85,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Health Model\Monitoring\DR_DatabaseComponentGroupToDA.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Health Model\Monitoring\ServiceMonitorHeronWithHours.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Health Model\Monitoring\WindowsServiceMonitorLibrary.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Presentation\AlertsView.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Presentation\DAStateView.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Presentation\Folder.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Presentation\InstanceGroupMembersStateView.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Presentation\InstanceGroupStateView.mpx">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServiceModel\Classes\DAClasses.mpx">

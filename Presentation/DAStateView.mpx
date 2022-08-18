@@ -1,0 +1,23 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Presentation>
+		<Views>
+			<View ID="App_Wader2.Views.State.DA" Accessibility="Internal" Target="App_Wader2.DA" TypeID="SC!Microsoft.SystemCenter.StateViewType" Visible="true">
+				<Category>Operations</Category>
+			</View>
+		</Views>
+		<FolderItems>
+			<FolderItem ElementID="App_Wader2.Views.State.DA" Folder="App_Wader2.Folder" ID="App_Wader2.Views.State.DA.FolderItem" />
+		</FolderItems>
+	</Presentation>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="App_Wader2.Views.State.DA">
+					<Name>App_Wader2 Application Health State View</Name>
+					<Description>Description for the new view</Description>
+				</DisplayString>
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+
+</ManagementPackFragment>

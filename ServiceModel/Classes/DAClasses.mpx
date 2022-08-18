@@ -19,7 +19,7 @@
 			<DisplayStrings>
 				<!-- Application Server Display Strings --> 
 				<DisplayString ElementID="App_Wader2_ApplicationServer">
-					<Name>Wader 3 Application Server</Name>
+					<Name>Wader 2 Application Server</Name>
 					<Description></Description>
 				</DisplayString>
 				<DisplayString ElementID="App_Wader2_ApplicationServer" SubElementID="Version">

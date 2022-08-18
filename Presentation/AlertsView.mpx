@@ -1,0 +1,28 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Presentation>
+		<Views>
+			<View ID="App_Wader2.Views.State.DA.Alert" Accessibility="Public" Target="App_Wader2.DA" TypeID="SC!Microsoft.SystemCenter.AlertViewType" Visible="true">
+				<Category>Operations</Category>
+				<Criteria>
+					<ResolutionState>
+						<StateRange Operator="NotEquals">255</StateRange>
+					</ResolutionState>
+				</Criteria>
+			</View>
+		</Views>
+		<FolderItems>
+			<FolderItem ElementID="App_Wader2.Views.State.DA.Alert" Folder="App_Wader2.Folder" ID="App_Wader2.Views.State.DA.Alert.FolderItem" />
+		</FolderItems>
+	</Presentation>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="App_Wader2.Views.State.DA.Alert">
+					<Name>App Wader 2 Alerts</Name>
+					<Description>Description for the new view</Description>
+				</DisplayString>
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+
+</ManagementPackFragment>

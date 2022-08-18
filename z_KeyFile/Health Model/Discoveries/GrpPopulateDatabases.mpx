@@ -1,0 +1,84 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Monitoring>
+		<Discoveries>
+			<Discovery ID="App_Wader2.DA.grppop" Target="App_Wader2.DA" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+				<Category>Discovery</Category>
+				<DiscoveryTypes>
+					<DiscoveryClass TypeID="App_Wader2.DA.ComponentGroup.Databases" />
+					<DiscoveryRelationship TypeID="App_Wader2.DA.contains.ComponentGroup.Databases" />
+				</DiscoveryTypes>
+				<DataSource ID="DS" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+					<RuleId>$MPElement$</RuleId>
+					<GroupInstanceId>$Target/Id$</GroupInstanceId>
+					<MembershipRules>
+						<MembershipRule>
+							<MonitoringClass>$MPElement[Name="App_Wader2.DA.ComponentGroup.Databases"]$</MonitoringClass>
+							<RelationshipClass>$MPElement[Name="App_Wader2.DA.contains.ComponentGroup.Databases"]$</RelationshipClass>
+						</MembershipRule>
+					</MembershipRules>
+				</DataSource>
+			</Discovery>
+			<Discovery ID="App_Wader2.DA.grppop.ComponentGroup.Databases.ContainsSQLDatabases" Target="App_Wader2.DA.ComponentGroup.Databases" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+				<Category>Discovery</Category>
+				<DiscoveryTypes>
+					<DiscoveryClass TypeID="App_Wader2.DA.ComponentGroup.Databases" />
+					<DiscoveryRelationship TypeID="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases" />
+				</DiscoveryTypes>
+				<DataSource ID="DS" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+					<RuleId>$MPElement$</RuleId>
+					<GroupInstanceId>$Target/Id$</GroupInstanceId>
+					<MembershipRules>
+						<MembershipRule>
+							<MonitoringClass>$MPElement[Name="MSWD!Microsoft.SQLServer.Windows.Database"]$</MonitoringClass>
+							<RelationshipClass>$MPElement[Name="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases"]$</RelationshipClass>
+							<Expression>
+								<And>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<Property>$MPElement[Name="MSCL!Microsoft.SQLServer.Core.Database"]/DatabaseName$</Property>
+											</ValueExpression>
+											<Operator>Equal</Operator>
+											<ValueExpression>
+												<Value>TestDB</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+									<Expression>
+										<RegExExpression>
+											<ValueExpression>
+												<HostProperty>
+													<MonitoringClass>$MPElement[Name="MSWD!Microsoft.SQLServer.Windows.DBEngine"]$</MonitoringClass>
+													<Property>$MPElement[Name="MSWD!Microsoft.SQLServer.Windows.DBEngine"]/PrincipalName$</Property>
+												</HostProperty>
+											</ValueExpression>
+											<Operator>ContainsSubstring</Operator>
+											<Pattern>scomsql</Pattern>
+										</RegExExpression>
+									</Expression>
+								</And>
+							</Expression>
+						</MembershipRule>
+					</MembershipRules>
+				</DataSource>
+			</Discovery>
+
+		</Discoveries>
+	</Monitoring>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="App_Wader2.DA.grppop">
+					<Name>App Wader 2 Distributed Application - Populate with SQL Component Group</Name>
+					<Description>App Wader 2 Distributed Application -  SQL Component Group class and relationship discovery</Description>
+				</DisplayString>
+
+				<DisplayString ElementID="App_Wader2.DA.grppop.ComponentGroup.Databases.ContainsSQLDatabases">
+					<Name>App Wader 2 database component group populator Contains SQL Databases</Name>
+					<Description>App Wader 2 database class and relationship discovery.</Description>
+				</DisplayString>
+
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

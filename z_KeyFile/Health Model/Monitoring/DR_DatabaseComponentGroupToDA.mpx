@@ -1,0 +1,52 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Monitoring>
+		<Monitors>
+			<DependencyMonitor ID="App_Wader2.DA.DR.ComponentGroup.DatabasesToGroup" Accessibility="Public" Enabled="true" Target="App_Wader2.DA.ComponentGroup.Databases" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases" MemberMonitor="Health!System.Health.AvailabilityState">
+				<Category>AvailabilityHealth</Category>
+				<Algorithm>WorstOf</Algorithm>
+			</DependencyMonitor>
+
+			<DependencyMonitor ID="App_Wader2.DA.DR.DAToComponentGroup" Accessibility="Public" Enabled="true" Target="App_Wader2.DA" ParentMonitorID="Health!System.Health.AvailabilityState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.contains.ComponentGroup.Databases" MemberMonitor="Health!System.Health.AvailabilityState">
+				<Category>AvailabilityHealth</Category>
+				<Algorithm>WorstOf</Algorithm>
+			</DependencyMonitor>
+
+			<DependencyMonitor ID="App_Wader2.DA.DR.ComponentGroup.DatabasesToGroup.Perf" Accessibility="Public" Enabled="true" Target="App_Wader2.DA.ComponentGroup.Databases" ParentMonitorID="Health!System.Health.PerformanceState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.ComponentGroup.Databases.ContainsSQLDatabases" MemberMonitor="Health!System.Health.PerformanceState">
+				<Category>PerformanceHealth</Category>
+				<Algorithm>WorstOf</Algorithm>
+			</DependencyMonitor>
+
+			<DependencyMonitor ID="App_Wader2.DA.DR.DAToComponentGroup.Perf" Accessibility="Public" Enabled="true" Target="App_Wader2.DA" ParentMonitorID="Health!System.Health.PerformanceState" Remotable="true" Priority="Normal" RelationshipType="App_Wader2.DA.contains.ComponentGroup.Databases" MemberMonitor="Health!System.Health.PerformanceState">
+				<Category>PerformanceHealth</Category>
+				<Algorithm>WorstOf</Algorithm>
+			</DependencyMonitor>
+
+		</Monitors>
+	</Monitoring>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="App_Wader2.DA.DR.ComponentGroup.DatabasesToGroup">
+					<Name>Roll up database health to Component group health - availability</Name>
+					<Description>Description for new dependency monitor.</Description>
+				</DisplayString>
+
+				<DisplayString ElementID="App_Wader2.DA.DR.DAToComponentGroup">
+					<Name>Roll up databasegroup health to DA - availability</Name>
+					<Description>Description for new dependency monitor.</Description>
+				</DisplayString>
+
+				<DisplayString ElementID="App_Wader2.DA.DR.ComponentGroup.DatabasesToGroup.Perf">
+					<Name>Roll up database health to Component group health - performance</Name>
+					<Description>Description for new dependency monitor.</Description>
+				</DisplayString>
+
+				<DisplayString ElementID="App_Wader2.DA.DR.DAToComponentGroup.Perf">
+					<Name>Roll up databasegroup health to DA - performance</Name>
+					<Description>Description for new dependency monitor.</Description>
+				</DisplayString>
+
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

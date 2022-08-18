@@ -1,0 +1,58 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Monitoring>
+		<Discoveries>
+			<!-- DA Contains Application Server Component Group -->
+			<Discovery ID="App_Wader2.DA.Contains.ApplicationServersComponentGroup.Discovery" Target="App_Wader2.DA" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+				<Category>Discovery</Category>
+				<DiscoveryTypes>
+					<DiscoveryClass TypeID="App_Wader2.DA.ComponentGroup.ApplicationServer" />
+					<DiscoveryRelationship TypeID="App_Wader2.DA.contains.ComponentGroup.ApplicationServers" />
+				</DiscoveryTypes>
+				<DataSource ID="DS" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+					<RuleId>$MPElement$</RuleId>
+					<GroupInstanceId>$Target/Id$</GroupInstanceId>
+					<MembershipRules>
+						<MembershipRule>
+							<MonitoringClass>$MPElement[Name="App_Wader2.DA.ComponentGroup.ApplicationServer"]$</MonitoringClass>
+							<RelationshipClass>$MPElement[Name="App_Wader2.DA.contains.ComponentGroup.ApplicationServers"]$</RelationshipClass>
+						</MembershipRule>
+					</MembershipRules>
+				</DataSource>
+			</Discovery>
+			<Discovery ID="App_Wader2.DA.grppop.ComponentGroup.Contains.ApplicationServers.Discovery" Target="App_Wader2.DA.ComponentGroup.ApplicationServer" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+				<Category>Discovery</Category>
+				<DiscoveryTypes>
+					<DiscoveryClass TypeID="App_Wader2_ApplicationServer" />
+					<DiscoveryRelationship TypeID="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers" />
+				</DiscoveryTypes>
+				<DataSource ID="DS" TypeID="SC!Microsoft.SystemCenter.GroupPopulator">
+					<RuleId>$MPElement$</RuleId>
+					<GroupInstanceId>$Target/Id$</GroupInstanceId>
+					<MembershipRules>
+						<MembershipRule>
+							<MonitoringClass>$MPElement[Name="App_Wader2_ApplicationServer"]$</MonitoringClass>
+							<RelationshipClass>$MPElement[Name="App_Wader2.DA.ComponentGroup.ApplicationServers.ContainsApplicationServers"]$</RelationshipClass>
+						</MembershipRule>
+					</MembershipRules>
+				</DataSource>
+			</Discovery>
+
+		</Discoveries>
+	</Monitoring>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="App_Wader2.DA.Contains.ApplicationServersComponentGroup.Discovery">
+					<Name>App Wader 2 Distributed Application - Populate with Application Server Component Group</Name>
+					<Description>App Wader 2 Distributed Application Contains Application Servers Component Group class and relationship discovery</Description>
+				</DisplayString>
+
+				<DisplayString ElementID="App_Wader2.DA.grppop.ComponentGroup.Contains.ApplicationServers.Discovery">
+					<Name>App Wader 2 Application Server component group populator Contains Application Servers</Name>
+					<Description>App Wader 2 Application Server class and relationship discovery.</Description>
+				</DisplayString>
+
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

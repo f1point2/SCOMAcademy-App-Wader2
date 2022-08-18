@@ -5,7 +5,7 @@
     <RootNamespace>App_Wader2</RootNamespace>
     <Name>App_Wader2</Name>
     <ManagementPackName>App_Wader2</ManagementPackName>
-    <Version>1.0.0.7</Version>
+    <Version>1.0.0.8</Version>
     <MpFrameworkVersion>v7.0.3</MpFrameworkVersion>
     <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>

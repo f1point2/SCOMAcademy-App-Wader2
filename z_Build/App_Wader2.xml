@@ -3,7 +3,7 @@
   <Manifest>
     <Identity>
       <ID>App_Wader2</ID>
-      <Version>1.0.0.7</Version>
+      <Version>1.0.0.8</Version>
     </Identity>
     <Name>App_Wader2</Name>
     <References>
@@ -425,7 +425,7 @@
         </OperationalStates>
         <Configuration>
           <ComputerName>$Target/Host/Property[Type='Windows!Microsoft.Windows.Computer']/PrincipalName$</ComputerName>
-          <ServiceName>AppWader2HeronService</ServiceName>
+          <ServiceName>Wader 2 Heron Service</ServiceName>
           <CheckStartupType>False</CheckStartupType>
           <From>08:30</From>
           <To>16:00</To>
